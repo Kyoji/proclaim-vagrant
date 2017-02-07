@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 mysql -uroot -e "drop database if exists proclaim"
 mysql -uroot -e "create database proclaim"

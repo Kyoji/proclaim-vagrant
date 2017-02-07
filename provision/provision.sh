@@ -1,4 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+# Append apt sources
+ ln -sf /srv/config/apt-source-append.list /etc/apt/sources.list.d/proclaim-sources.list
 
 # Run apt-get updates and repository additions
 sudo sh /srv/provision/apt-get_update.sh

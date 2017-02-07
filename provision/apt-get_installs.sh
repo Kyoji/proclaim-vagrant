@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-sudo apt-get install -y apache2
-sudo apt-get install -y php7.0
+sudo apt-get -y install apache2
+sudo apt-get -y install php7.0
 export DEBIAN_FRONTEND=noninteractive
 sudo -E apt-get -q -y install mysql-server
-sudo apt-get install -y php7.0-mysql
-sudo apt-get install -y php7.0-xdebug
+sudo apt-get -y install php7.0-mysql
+sudo apt-get -y install php7.0-xdebug

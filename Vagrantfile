@@ -18,10 +18,10 @@ Vagrant.configure("2") do |config|
     config.hostsupdater.remove_on_suspend = true
     end
 
-    config.vm.synced_folder "config/", "/srv/config/"
-    config.vm.synced_folder "database/", "/srv/database/"
-    config.vm.synced_folder "provision/", "/srv/provision/"
-    config.vm.synced_folder "www/", "/var/www/"
+    config.vm.synced_folder "config/", "/srv/config/", :mount_options => [ "dmode=777", "fmode=777" ]
+    config.vm.synced_folder "database/", "/srv/database/", :mount_options => [ "dmode=777", "fmode=777" ]
+    config.vm.synced_folder "provision/", "/srv/provision/", :mount_options => [ "dmode=777", "fmode=777" ]
+    config.vm.synced_folder "www/", "/var/www/", :owner => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
 
     config.vm.provision :shell, path: "provision/provision.sh"
 
