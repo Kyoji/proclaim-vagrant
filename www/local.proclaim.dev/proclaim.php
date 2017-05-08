@@ -2,7 +2,7 @@
 /**
  * Main entry point of Proclaim
  *
- * Calls all scripts, sets up environment. All requests are routed to this class.
+ * Calls all scripts, sets up environment.
  *
  * @author Daniel Owens
  */
@@ -10,16 +10,44 @@
 declare(strict_types = 1);
 
 namespace Proclaim;
-const proclaim_debug = 1;
 
-define("LOADER", "core/utilities/Loader.class.php");
+/*
+* Define globals for debug and loader
+* TODO: Add hook to override these globals
+*/
+if(!defined("P_DEBUG")){ define("P_DEBUG", 1); }
 
-require_once (LOADER);
-Loader::Register('Core.Main', 'main');
-Loader::Register('Core.Utilities', 'utilities');
-Loader::Include('Core.Main.App');
-Loader::Include('Core.Utilities.Console');
-$test = [1,2,3];
-Console::PushString(var_export($test, true));
-App::init();
-Console::Display();
+require_once("core/utilities/loader.interface.php");
+require_once("core/utilities/Loader.class.php");
+
+$loader = new Loader;
+// $loader->load('core/controllers/router.class', ["loader" => &$loader]);
+// $loader->load('core/controllers/pdo.class');
+// $loader->load('core/controllers/db.class');
+// $loader->load('core/models/post.class');
+
+$loadFirst = [
+    ["root" => "core/controllers/", "router.class", "pdo.class", "db.class"],
+    "core/models/post.class",
+    "vars" => ["loader" => &$loader],
+    "loadmode" => "include",
+];
+
+$loader->loadMany($loadFirst);
+
+$url =  $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+$router = new Router( $url );
+
+$filename = "config/db.json";
+$handle = fopen($filename, "r");
+$contents = fread( $handle, filesize($filename));
+fclose($handle);
+
+$test = json_decode($contents, true);
+$db = new MysqlDatabase( $test );
+$posts = $db->getPosts();
+
+var_dump($posts);
+
+
+

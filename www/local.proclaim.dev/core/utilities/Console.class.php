@@ -13,10 +13,7 @@ class Console
 
     private static $messages = array();
 
-    /**
-     * @param $variable
-     */
-    static function PushDump( &$variable )
+    static function PushDump( $variable )
     {
         ob_start();
         var_dump($variable);
@@ -31,7 +28,9 @@ class Console
 
     static function Display()
     {
-        proclaim_debug ? Loader::Include('Core.Utilities.Console', 'view', ['messages' => &self::$messages]) : null;
+        if( proclaim_debug ) {
+            Loader::Include('Core.Utilities.Console', 'view', ['messages' => &self::$messages]);
+        }
     }
 
 }
