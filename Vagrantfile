@@ -8,6 +8,8 @@ Vagrant.configure("2") do |config|
     config.vm.network :private_network, id: "proclaim_primary", ip: "192.168.10.250"
     config.vm.hostname = "proclaim"
 
+    config.vbguest.auto_update = false
+
     config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
